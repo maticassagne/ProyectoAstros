@@ -1,8 +1,10 @@
 // import { Product } from '../../products/entities/product.entity'; // Comentado por ahora
+import { Product } from 'src/products/products/entities/product.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   // OneToMany, // Comentado por ahora
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -18,8 +20,8 @@ export class Category {
 
   // Relación: Una categoría puede tener muchos productos.
   // La definiremos una vez que la entidad Product exista.
-  // @OneToMany(() => Product, (product) => product.category)
-  // products: Product[];
+  @OneToMany(() => Product, (product) => product.category)
+  products: Product[];
 
   @CreateDateColumn({
     name: 'created_at',

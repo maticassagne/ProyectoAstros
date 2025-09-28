@@ -8,6 +8,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { CategoriesModule } from './products/categories/categories.module';
 import { SuppliersModule } from './stock/suppliers/suppliers.module';
 import { ClientsModule } from './sales/clients/clients.module';
+import { ProductsModule } from './products/products/products.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { ClientsModule } from './sales/clients/clients.module';
     CategoriesModule,
     SuppliersModule,
     ClientsModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
