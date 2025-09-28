@@ -80,7 +80,7 @@ export class SuppliersService {
 
   async remove(id: string) {
     const supplier = await this.supplierRepository.findOne({ where: { id } });
-    if (!supplier) throw new NotFoundException('Supplier not found');
+    if (!supplier) throw new NotFoundException('Proveedor no encontrado.');
 
     // Buscar o crear proveedor por defecto
     let defaultSupplier = await this.supplierRepository.findOne({

@@ -81,6 +81,7 @@ export class CategoriesService {
 
   async remove(id: string) {
     const category = await this.findOne(id); // verifica existencia
+    if (!category) throw new NotFoundException('Categoria no encontrada.');
 
     // Buscar o crear categoría "Sin categoría"
     let defaultCategory = await this.categoryRepository.findOneBy({
