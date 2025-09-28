@@ -9,12 +9,15 @@ import { Repository } from 'typeorm';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { Category } from './entities/category.entity';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { Product } from '../products/entities/product.entity';
 
 @Injectable()
 export class CategoriesService {
   constructor(
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
+    @InjectRepository(Product)
+    private readonly productRepository: Repository<Product>,
   ) {}
 
   async findAll() {
@@ -77,10 +80,34 @@ export class CategoriesService {
   }
 
   async remove(id: string) {
-    const category = await this.findOne(id); // Reutilizamos para verificar que existe
+    const category = await this.findOne(id); // verifica existencia
+
+    // Buscar o crear categoría "Sin categoría"
+    let defaultCategory = await this.categoryRepository.findOneBy({
+      nombre: 'Sin categoría',
+    });
+    if (!defaultCategory) {
+      defaultCategory = this.categoryRepository.create({
+        nombre: 'Sin categoría',
+      });
+      await this.categoryRepository.save(defaultCategory);
+    }
+
+    // Reasignar productos
+    const products = await this.productRepository.find({
+      where: { category: { id } },
+    });
+    for (const p of products) {
+      p.category = defaultCategory;
+    }
+    if (products.length > 0) {
+      await this.productRepository.save(products);
+    }
+
+    // Finalmente eliminar la categoría original
     await this.categoryRepository.remove(category);
     return {
-      message: `Categoría: '${category.nombre}', eliminada correctamente.`,
+      message: `Categoría: '${category.nombre}', eliminada correctamente y ${products.length} producto(s) reasignado(s).`,
     };
   }
 }

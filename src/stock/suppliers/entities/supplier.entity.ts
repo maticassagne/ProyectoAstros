@@ -1,7 +1,9 @@
+import { Product } from 'src/products/products/entities/product.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -34,6 +36,9 @@ export class Supplier {
 
   @Column({ name: 'codigo_postal', type: 'varchar', nullable: true })
   codigoPostal: string;
+
+  @OneToMany(() => Product, (product) => product.supplier)
+  products: Product[];
 
   @CreateDateColumn({
     name: 'created_at',
