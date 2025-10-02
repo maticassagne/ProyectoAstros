@@ -1,10 +1,12 @@
 import { Category } from 'src/products/categories/entities/category.entity';
+import { Lote } from 'src/stock/lotes/entities/lote.entity';
 import { Supplier } from 'src/stock/suppliers/entities/supplier.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -123,6 +125,10 @@ export class Product {
 
   @ManyToOne(() => Supplier, (supplier) => supplier.products, { eager: true })
   supplier: Supplier;
+
+  // Un producto puede tener muchos lotes
+  @OneToMany(() => Lote, (lote) => lote.product)
+  lotes: Lote[];
 
   @CreateDateColumn({
     name: 'created_at',
