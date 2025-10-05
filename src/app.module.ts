@@ -10,6 +10,8 @@ import { SuppliersModule } from './stock/suppliers/suppliers.module';
 import { ClientsModule } from './sales/clients/clients.module';
 import { ProductsModule } from './products/products/products.module';
 import { LotesModule } from './stock/lotes/lotes.module';
+import { MovementsModule } from './stock/movements/movements.module';
+import { ComprobantesModule } from './sales/comprobantes/comprobantes.module';
 
 @Module({
   imports: [
@@ -36,6 +38,8 @@ import { LotesModule } from './stock/lotes/lotes.module';
     ClientsModule,
     ProductsModule,
     LotesModule,
+    MovementsModule,
+    ComprobantesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
