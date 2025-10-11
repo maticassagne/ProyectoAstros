@@ -12,6 +12,8 @@ import { ProductsModule } from './products/products/products.module';
 import { LotesModule } from './stock/lotes/lotes.module';
 import { MovementsModule } from './stock/movements/movements.module';
 import { ComprobantesModule } from './sales/comprobantes/comprobantes.module';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -40,6 +42,8 @@ import { ComprobantesModule } from './sales/comprobantes/comprobantes.module';
     LotesModule,
     MovementsModule,
     ComprobantesModule,
+    UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
