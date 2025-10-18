@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ComprobanteItem } from './comprobante-item.entity';
+import { User } from 'src/users/entities/user.entity';
 
 export enum ComprobanteType {
   PRESUPUESTO = 'Presupuesto',
@@ -31,8 +32,8 @@ export class Comprobante {
   @ManyToOne(() => Client)
   client: Client;
 
-  // @ManyToOne(() => User) // La activaremos cuando creemos Usuarios
-  // vendedor: User;
+  @ManyToOne(() => User) // La activaremos cuando creemos Usuarios
+  vendedor: User;
 
   @OneToMany(() => ComprobanteItem, (item) => item.comprobante, {
     cascade: true,

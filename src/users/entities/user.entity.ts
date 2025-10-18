@@ -7,6 +7,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Role } from '../../common/entities/role.entity/role.entity';
+import { ManyToOne } from 'typeorm';
 
 @Entity({ name: 'users' })
 export class User {
@@ -27,6 +29,10 @@ export class User {
 
   @Column({ type: 'boolean', default: true })
   activo: boolean;
+
+  // --- Relación con Role ---
+  @ManyToOne(() => Role, (role) => role.users, { eager: true }) // eager: true carga el rol automáticamente
+  role: Role;
 
   // --- Hook de TypeORM ---
   @BeforeInsert()

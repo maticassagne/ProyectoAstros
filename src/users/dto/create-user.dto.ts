@@ -1,4 +1,11 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  MinLength,
+  IsUUID,
+  IsOptional,
+} from 'class-validator';
 
 export class CreateUserDto {
   @IsEmail()
@@ -19,4 +26,8 @@ export class CreateUserDto {
   @IsNotEmpty({ message: 'El apellido no puede estar vacío.' })
   @MinLength(3, { message: 'El apellido debe tener al menos 2 caracteres.' })
   apellido: string;
+
+  @IsUUID()
+  @IsNotEmpty({ message: 'El rol no puede estar vacío.' })
+  roleId: string;
 }
