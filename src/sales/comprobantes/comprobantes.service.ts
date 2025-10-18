@@ -15,6 +15,8 @@ import {
   StockMovement,
   MovementType,
 } from 'src/stock/movements/entities/movement.entity';
+import { User } from 'src/users/entities/user.entity';
+import { RolesEnum } from 'src/common/entities/role.entity/role.entity';
 
 @Injectable()
 export class ComprobantesService {
@@ -31,10 +33,10 @@ export class ComprobantesService {
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
-    const { clientId, items } = createComprobanteDto;
+    const { clientId, vendedorId, items } = createComprobanteDto;
 
     try {
-      // ## PASO 1: VALIDAR Y OBTENER DATOS ##
+      // ... (la validación del cliente sigue igual)
       const client = await queryRunner.manager.findOneBy(Client, {
         id: clientId,
       });
@@ -42,6 +44,28 @@ export class ComprobantesService {
         throw new NotFoundException(
           `Cliente con ID '${clientId}' no encontrado.`,
         );
+
+      // --- VALIDACIÓN DEL VENDEDOR (CORREGIDA Y MEJORADA) ---
+      let vendedor: User | null = null;
+      if (vendedorId) {
+        vendedor = await queryRunner.manager.findOne(User, {
+          where: { id: vendedorId },
+          relations: ['role'], // Nos aseguramos de cargar la relación con el rol
+        });
+
+        if (!vendedor) {
+          throw new NotFoundException(
+            `Vendedor con ID '${vendedorId}' no encontrado.`,
+          );
+        }
+
+        // ¡Aquí aplicamos tu lógica!
+        if (vendedor.role.nombre !== RolesEnum.VENDEDOR) {
+          throw new BadRequestException(
+            `El usuario '${vendedor.nombre}' no tiene el rol de Vendedor.`,
+          );
+        }
+      }
 
       let totalComprobante = 0;
       const comprobanteItems: ComprobanteItem[] = [];

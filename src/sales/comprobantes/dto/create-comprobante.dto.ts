@@ -34,4 +34,8 @@ export class CreateComprobanteDto {
   @ValidateNested({ each: true })
   @Type(() => ComprobanteItemDto)
   items: ComprobanteItemDto[];
+
+  @IsUUID()
+  @IsOptional() // Opcional, quizás no todas las ventas lo requieran
+  vendedorId?: string;
 }
